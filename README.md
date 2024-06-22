@@ -3,11 +3,11 @@
 
 ## Overview
 
-This code is just for fun and demo purposes. The `TOTPService` class is here to show you how you can verify TOTP codes using invocable actions in Salesforce from Flows and other components, or directly from Apex. It’s like adding an extra security guard for your records and processes. In this demo, we’ve included a couple of fields and a triggered Flow to illustrate how it works. Imagine your account is a VIP – this setup prevents any changes to your data without a valid TOTP code. 
+This code is just for demo purposes. The `TOTPService` class is basicaly to show you how you can verify TOTP codes using invocable actions in Salesforce from Flows and other components, or directly from Apex. It’s like adding an extra security guard for your records and processes. In this demo, we’ve included a couple of fields and a triggered Flow to illustrate how it works. Imagine your account is a VIP – this setup prevents any changes to your data without a valid TOTP code. 
 
 Note: It’s been a bit challenging to test with stubs, so we’re using dependency injection among other things to make testing easier and more effective.
 
-Any comments, feedback, or suggestions for improvement are more than welcome. Feel free to reach out to me at develop@mpdigitals.com.
+Any comments, feedback, or suggestions for improvement are more than welcome. Feel free to reach me out at develop@mpdigitals.com.
 
 ## Installation
 
