@@ -2,7 +2,11 @@
 
 ## Overview
 
-The `TOTPService` class allows for the verification of TOTP codes via invocable actions from Flows and other components or directly from Apex. This service provides an extra layer of security not only for records or any process. The repository includes a couple of fields and a triggered Flow for demonstration purposes.
+This code is just for fun and demo purposes. The `TOTPService` class is here to show you how you can verify TOTP codes using invocable actions from Flows and other components, or directly from Apex. It’s like adding an extra security guard for your records and processes. In this demo, we’ve included a couple of fields and a triggered Flow to illustrate how it works. Imagine your account is a VIP – this setup prevents any changes to your data without a valid TOTP code. 
+
+Note: It’s been a bit challenging to test with stubs, so we’re using dependency injection among other things to make testing easier and more effective.
+
+Any comments, feedback, or suggestions for improvement are more than welcome. Feel free to reach out to me at develop@mpdigitals.com.
 
 ## Installation
 
@@ -12,13 +16,14 @@ To deploy the `TOTPService`, you can either deploy the entire repository or just
 
 1. Clone the repository or download the zip file.
 2. Deploy the `TOTPService` class and associated labels.
-3. Optionally, deploy the sample Flow and fields (`TOTP__c` and `VIP__c`) for testing.
+3. Optionally, deploy the TOTP_Triggered_flow_Action_Account Flow and fields (`TOTP__c` and `VIP__c`) for testing.
+4. Drag the account fields to the Account Lightning page.
 
 ## Usage
 
 ### Invocable Method
 
-The `TOTPService` class provides an invocable method `verifyTOTP` that can be used in Salesforce Flows. This method verifies the provided TOTP code and returns the verification result.
+The `TOTPService` class provides an invocable method `verify TOTP` that can be used in Salesforce Flows. This method verifies the provided TOTP code and returns the verification result.
 
 #### Example Usage in Flow:
 
@@ -32,11 +37,8 @@ You can also use the `TOTPService` class directly from Apex code. Here's an exam
 
 ```apex
 TOTPService.VerificationRequest request = new TOTPService.VerificationRequest();
-request.totpCode = '123456';
+request.totpCode = '123456'; // Set a valid TOTP code
+TOTPService.VerificationResult result = (new TOTPService()).verify(request);
 
-List<TOTPService.VerificationRequest> requests = new List<TOTPService.VerificationRequest> { request };
-List<TOTPService.VerificationResult> results = TOTPService.verifyTOTP(requests);
-
-for (TOTPService.VerificationResult result : results) {
-    System.debug(result.message);
-}
+System.debug('Verification Result: ' + result.message);
+System.debug('Is Success: ' + result.isSuccess);
