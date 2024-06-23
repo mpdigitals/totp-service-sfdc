@@ -1,18 +1,47 @@
-# Salesforce DX Project: Next Steps
+# topt-service-sfdc
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
 
-## How Do You Plan to Deploy Your Changes?
+## Overview
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+This code is just for demo purposes. The `TOTPService` class is basicaly to show you how you can verify TOTP codes using invocable actions in Salesforce from Flows and other components, or directly from Apex. It’s like adding an extra security guard for your records and processes. In this demo, we’ve included a couple of fields and a triggered Flow to illustrate how it works. Imagine your account is a VIP – this setup prevents any changes to your data without a valid TOTP code. 
 
-## Configure Your Salesforce DX Project
+<img src="img/totp-example.png" alt="TOTP Example" width="600"/>
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+Note: It’s been a bit challenging to test with stubs, so we’re using dependency injection among other things to make testing easier and more effective.
 
-## Read All About It
+Any comments, feedback, suggestions for improvement, or reports of bugs are more than welcome. Feel free to reach me out at develop@mpdigitals.com.
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+## Installation
+
+To deploy the `TOTPService`, you can either deploy the entire repository or just the necessary classes and labels if you prefer to implement your own examples.
+
+### Deployment Steps:
+
+1. Clone the repository or download the zip file.
+2. Deploy the `TOTPService` class and associated labels.
+3. Optionally, deploy the TOTP_Triggered_flow_Action_Account Flow and fields (`TOTP__c` and `VIP__c`) for testing.
+4. Drag the account fields to the Account Lightning page.
+
+## Usage
+
+### Invocable Method
+
+The `TOTPService` class provides an invocable method `verify TOTP` that can be used in Salesforce Flows. This method verifies the provided TOTP code and returns the verification result.
+
+#### Example Usage in Flow:
+
+1. Add an action in your Triggered-Flow and select `TOTPService.verifyTOTP`.
+2. Provide the necessary inputs (TOTP code).
+3. Use the output of the action to handle the verification result in your Flow logic.
+
+### Using Apex
+
+You can also use the `TOTPService` class directly from Apex code. Here's an example of how to call the service from an anonymous Apex block:
+
+```apex
+TOTPService.VerificationRequest request = new TOTPService.VerificationRequest();
+request.totpCode = '123456'; // Set a valid TOTP code
+TOTPService.VerificationResult result = (new TOTPService()).verify(request);
+
+System.debug('Verification Result: ' + result.message);
+System.debug('Is Success: ' + result.isSuccess);
