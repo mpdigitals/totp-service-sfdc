@@ -16,7 +16,7 @@ To deploy the `TOTPService`, you can either deploy the entire repository or just
 ### Deployment Steps:
 
 1. Clone the repository or download the zip file.
-2. Deploy the `TOTPService` class and associated labels.
+2. Deploy the `TOTPService` class.
 3. Optionally, deploy the TOTP_Triggered_flow_Action_Account Flow and fields (`TOTP__c` and `VIP__c`) for testing.
 4. Drag the account fields to the Account Lightning page.
 
