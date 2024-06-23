@@ -7,9 +7,7 @@ This code is just for demo purposes. The `TOTPService` class is basicaly to show
 
 <img src="img/TOTP_account_invalid.png" alt="TOTP Example" width="600" />
 
-Note: It’s been a bit challenging to test with stubs, so we’re using dependency injection among other things to make testing easier and more effective.
-
-Any comments, feedback, suggestions for improvement, or reports of bugs are more than welcome. Feel free to reach me out at develop@mpdigitals.com.
+**Note:** It’s been a bit challenging to test with stubs, so we’re using dependency injection among other things to make testing easier and more effective.
 
 ## Installation
 
@@ -47,3 +45,6 @@ TOTPService.VerificationResult result = (new TOTPService()).verify(request);
 
 System.debug('Verification Result: ' + result.message);
 System.debug('Is Success: ' + result.isSuccess);
+```
+## Contact
+Any comments, feedback, suggestions for improvement, or reports of bugs are more than welcome. Feel free to reach me out at develop@mpdigitals.com.
