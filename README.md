@@ -1,4 +1,4 @@
-# topt-service-sfdc
+# TOTP-Salesforce: TOTP Service class
 
 
 ## Overview
