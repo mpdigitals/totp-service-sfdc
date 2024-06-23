@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>TOTP Apex Action for validating TOTP</description>
+        <name>ACT_TOTP_Service</name>
+        <label>TOTP Service</label>
+        <locationX>413</locationX>
+        <locationY>412</locationY>
+        <actionName>TOTPService</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>DEC_TOTP_Verification_Result</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>CERR_TOTP_Not_validated</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>totpCode</name>
+            <value>
+                <elementReference>$Record.TOTP__c</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>TOTPService</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+        <versionSegment>1</versionSegment>
+    </actionCalls>
+    <apiVersion>61.0</apiVersion>
+    <customErrors>
+        <description>Update Error</description>
+        <name>CER_Update_Error</name>
+        <label>Update Error</label>
+        <locationX>784</locationX>
+        <locationY>847</locationY>
+        <customErrorMessages>
+            <errorMessage>{!$Flow.FaultMessage}</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <customErrors>
+        <description>TOTP not validated</description>
+        <name>CERR_TOTP_Not_validated</name>
+        <label>TOTP  Not validated</label>
+        <locationX>770</locationX>
+        <locationY>617</locationY>
+        <customErrorMessages>
+            <errorMessage>{!FOR_Error_TOPT}</errorMessage>
+            <fieldSelection>TOTP__c</fieldSelection>
+            <isFieldError>true</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <decisions>
+        <description>Verification Result</description>
+        <name>DEC_TOTP_Empty</name>
+        <label>TOTP Empty</label>
+        <locationX>755</locationX>
+        <locationY>409</locationY>
+        <defaultConnector>
+            <targetReference>CERR_TOTP_Not_validated</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>TOPT Blank</defaultConnectorLabel>
+        <rules>
+            <name>OUT_TOTP_Informed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.TOTP__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ACT_TOTP_Service</targetReference>
+            </connector>
+            <label>TOTP Informed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Verification Result</description>
+        <name>DEC_TOTP_Verification_Result</name>
+        <label>TOTP Verification Result</label>
+        <locationX>405</locationX>
+        <locationY>622</locationY>
+        <defaultConnector>
+            <targetReference>CERR_TOTP_Not_validated</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Verification Fail</defaultConnectorLabel>
+        <rules>
+            <name>OUT_Verification_Successfull</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ACT_TOTP_Service.isSuccess</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>UPD_Clear_TOPT</targetReference>
+            </connector>
+            <label>Verification Successfull</label>
+        </rules>
+    </decisions>
+    <description>Account TOTP Verification Triggered Flow Action</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Error in TOPT</description>
+        <name>FOR_Error_TOPT</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!$Record.TOTP__c}),&apos;TOTP must be informed&apos;, {!ACT_TOTP_Service.message})</expression>
+    </formulas>
+    <interviewLabel>TOTP Triggered-flow Action Account {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>TOTP Triggered-flow Action Account</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Clear TOPT</description>
+        <name>UPD_Clear_TOPT</name>
+        <label>Clear TOPT</label>
+        <locationX>413</locationX>
+        <locationY>847</locationY>
+        <faultConnector>
+            <targetReference>CER_Update_Error</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>TOTP__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>TOTP__c</field>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>545</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>DEC_TOTP_Empty</targetReference>
+        </connector>
+        <filterLogic>1 AND (2 OR 3)</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>VIP__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>VIP__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Account</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
