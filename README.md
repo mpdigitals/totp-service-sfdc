@@ -28,7 +28,7 @@ The `TOTPService` class provides an invocable method `verify TOTP` that can be u
 
 #### Example Usage in Flow:
 
-1. Add an action in your Triggered-Flow and select `TOTPService.verifyTOTP`.
+1. Add an action in your Triggered-Flow and select `Verify TOTP`.
 2. Provide the necessary inputs (TOTP code).
 3. Use the output of the action to handle the verification result in your Flow logic.
 
