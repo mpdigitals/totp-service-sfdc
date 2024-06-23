@@ -11,7 +11,7 @@ This code is just for demo purposes. The `TOTPService` class is basicaly to show
 
 ## Installation
 
-To deploy the `TOTPService`, you can either deploy the entire repository or just the necessary classes and labels if you prefer to implement your own examples.
+To deploy the `TOTPService`, you can either deploy the entire repository or just the necessary classes if you prefer to implement your own examples.
 
 ### Deployment Steps:
 
