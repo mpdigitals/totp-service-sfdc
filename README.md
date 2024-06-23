@@ -34,7 +34,7 @@ The `TOTPService` class provides an invocable method `verify TOTP` that can be u
 2. Provide the necessary inputs (TOTP code).
 3. Use the output of the action to handle the verification result in your Flow logic.
 
-<img src="img/TOTP_flow.png" alt="TOTP Example" width="700"/>
+<img src="img/TOTP_flow.png" alt="TOTP Example" width="800"/>
 
 ### Using Apex
 
